@@ -1,0 +1,36 @@
+Tema Elegido : Videojuegos
+
+Objetivo de Trabajo : 
+
+CONSIGNA - La consigna general es construir un sistema de recomendaciones dado un conjunto de elementos de un dominio (películas, juegos, libros, música, etc.), el sistema debe poder guardarlos, buscarlos, ordenarlos, relacionarlos entre sí y recomendar nuevos elementos a partir de uno dado.
+
+* Construir un sistema capaz de almacenar, buscar, ordenar, relacionar y recomendar elementos de un dominio real, utilizando estructuras de datos y algoritmos implementados en Python.
+* Detrás de esa pantalla tiene que haber estructuras de datos reales (árboles, heaps, grafos) resolviendo esas consultas — no if/else ni listas recorridas a fuerza bruta donde correspondería usar otra estructura.
+
+Ejemplos de funcionalidades del Programa orientado a Videojuegos :
+
+Funciones Obligatorias :
+
+* Buscar Elemento
+* Explorar Categorías
+
+Funciones Extras :
+
+* Top 10 de juegos valorados en puntos 
+* Juegos relacionados con el juego ingresado
+* Recomendar otros juegos si al usuario le gusta tal juego
+* Recomendar un juego de tal género
+
+ETAPAS
+
+TP 0	Lanzamiento	Idea, requisitos, boceto
+TP 1	Objetos y clases	Modelo + interfaz inicial
+TP 2	Análisis de algoritmos	Comparación de estrategias
+TP 3	Árboles binarios	Búsqueda eficiente
+TP 4	AVL	Balance y eficiencia
+TP 5	Árboles generales	Categorías y jerarquías
+TP 6	Heap	Rankings y prioridades
+TP 7	Grafos	Modelado de relaciones
+TP 8	BFS / DFS	Exploración de la red
+TP 9	Caminos mínimos	Optimización
+TP 10	Integración	Producto final + defensa
