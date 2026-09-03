@@ -1,3 +1,9 @@
+Integrantes :
+Maximo Barraza   - Dni 47189012
+Gabriel Ávila    - Dni 45679295
+Tomás Tagliani   - Dni 45480676
+
+
 Tema Elegido : Videojuegos
 
 Objetivo de Trabajo : 
