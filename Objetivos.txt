@@ -1,36 +1,46 @@
-Tema Elegido : Videojuegos
+Tema elegido: Videojuegos
 
-Objetivo de Trabajo : 
+Objetivo del trabajo:
 
-CONSIGNA - La consigna general es construir un sistema de recomendaciones dado un conjunto de elementos de un dominio (películas, juegos, libros, música, etc.), el sistema debe poder guardarlos, buscarlos, ordenarlos, relacionarlos entre sí y recomendar nuevos elementos a partir de uno dado.
+Construir un sistema de recomendaciones dado un conjunto de elementos de un
+dominio real. En nuestro caso, el dominio elegido son los videojuegos.
 
-* Construir un sistema capaz de almacenar, buscar, ordenar, relacionar y recomendar elementos de un dominio real, utilizando estructuras de datos y algoritmos implementados en Python.
-* Detrás de esa pantalla tiene que haber estructuras de datos reales (árboles, heaps, grafos) resolviendo esas consultas — no if/else ni listas recorridas a fuerza bruta donde correspondería usar otra estructura.
+El sistema debe poder:
 
-Ejemplos de funcionalidades del Programa orientado a Videojuegos :
+- Guardar videojuegos.
+- Buscar videojuegos.
+- Ordenar videojuegos.
+- Relacionar videojuegos entre si.
+- Recomendar nuevos videojuegos a partir de uno dado.
 
-Funciones Obligatorias :
+Condicion importante:
 
-* Buscar Elemento
-* Explorar Categorías
+Detras de la interfaz tiene que haber estructuras de datos reales, como arboles,
+heaps y grafos. La idea es evitar resolver las consultas importantes solamente
+con if/else o recorridos simples cuando corresponda usar otra estructura.
 
-Funciones Extras :
+Funcionalidades obligatorias:
 
-* Top 10 de juegos valorados en puntos 
-* Juegos relacionados con el juego ingresado
-* Recomendar otros juegos si al usuario le gusta tal juego
-* Recomendar un juego de tal género
+- Buscar elemento.
+- Explorar categorias.
 
-ETAPAS
+Funcionalidades extras:
 
-TP 0	Lanzamiento	Idea, requisitos, boceto
-TP 1	Objetos y clases	Modelo + interfaz inicial
-TP 2	Análisis de algoritmos	Comparación de estrategias
-TP 3	Árboles binarios	Búsqueda eficiente
-TP 4	AVL	Balance y eficiencia
-TP 5	Árboles generales	Categorías y jerarquías
-TP 6	Heap	Rankings y prioridades
-TP 7	Grafos	Modelado de relaciones
-TP 8	BFS / DFS	Exploración de la red
-TP 9	Caminos mínimos	Optimización
-TP 10	Integración	Producto final + defensa
+- Top 10 de juegos valorados por puntos.
+- Juegos relacionados con el juego ingresado.
+- Recomendar otros juegos si al usuario le gusta determinado juego.
+- Recomendar un juego de determinado genero.
+
+Etapas:
+
+- TP 0: Lanzamiento - Idea, requisitos, boceto.
+- TP 1: Objetos y clases - Modelo + interfaz inicial.
+- TP 2: Analisis de algoritmos - Comparacion de estrategias.
+- TP 3: Arboles binarios - Busqueda eficiente.
+- TP 4: AVL - Balance y eficiencia.
+- TP 5: Arboles generales - Categorias y jerarquias.
+- TP 6: Heap - Rankings y prioridades.
+- TP 7: Grafos - Modelado de relaciones.
+- TP 8: BFS / DFS - Exploracion de la red.
+- TP 9: Caminos minimos - Optimizacion.
+- TP 10: Integracion - Producto final + defensa.

@@ -1,42 +1,70 @@
-Integrantes :
-Maximo Barraza   - Dni 47189012
-Gabriel Ávila    - Dni 45679295
-Tomás Tagliani   - Dni 45480676
+# Trabajo Practico Integrador de Estructura de Datos
 
+## Integrantes
 
-Tema Elegido : Videojuegos
+- Maximo Barraza - DNI 47189012
+- Gabriel Avila - DNI 45679295
+- Tomas Tagliani - DNI 45480676
 
-Objetivo de Trabajo : 
+## Tema elegido
 
-CONSIGNA - La consigna general es construir un sistema de recomendaciones dado un conjunto de elementos de un dominio (películas, juegos, libros, música, etc.), el sistema debe poder guardarlos, buscarlos, ordenarlos, relacionarlos entre sí y recomendar nuevos elementos a partir de uno dado.
+Videojuegos.
 
-* Construir un sistema capaz de almacenar, buscar, ordenar, relacionar y recomendar elementos de un dominio real, utilizando estructuras de datos y algoritmos implementados en Python.
-* Detrás de esa pantalla tiene que haber estructuras de datos reales (árboles, heaps, grafos) resolviendo esas consultas — no if/else ni listas recorridas a fuerza bruta donde correspondería usar otra estructura.
+## Objetivo general
 
-Ejemplos de funcionalidades del Programa orientado a Videojuegos :
+Construir un sistema de recomendaciones capaz de almacenar, buscar, ordenar,
+relacionar y recomendar videojuegos utilizando estructuras de datos y algoritmos
+implementados en Python.
 
-Funciones Obligatorias :
+## Entrega actual: TP 1 - Objetos y clases
 
-* Buscar Elemento
-* Explorar Categorías
+Esta version inicial cumple con los puntos pedidos para la primera etapa:
 
-Funciones Extras :
+- Define la clase principal del dominio: `Videojuego`.
+- Implementa encapsulamiento con atributos protegidos y propiedades de solo lectura.
+- Separa responsabilidades entre modulos:
+  - `videojuego.py`: modelo del dominio.
+  - `catalogo.py`: gestion y consultas del catalogo.
+  - `datos.py`: carga de datos desde JSON.
+  - `Trabajo_Main.py`: interfaz de terminal.
+- Carga datos de prueba desde `datos/videojuegos.json`.
+- Incluye una interfaz de terminal.
+- Implementa operaciones utiles:
+  - Listar videojuegos.
+  - Buscar por nombre.
+  - Filtrar por genero.
+  - Filtrar por plataforma.
+  - Explorar categorias.
+  - Mostrar top por puntuacion.
 
-* Top 10 de juegos valorados en puntos 
-* Juegos relacionados con el juego ingresado
-* Recomendar otros juegos si al usuario le gusta tal juego
-* Recomendar un juego de tal género
+## Como ejecutar
 
-ETAPAS
+Desde la carpeta del proyecto:
 
-TP 0	Lanzamiento	Idea, requisitos, boceto
-TP 1	Objetos y clases	Modelo + interfaz inicial
-TP 2	Análisis de algoritmos	Comparación de estrategias
-TP 3	Árboles binarios	Búsqueda eficiente
-TP 4	AVL	Balance y eficiencia
-TP 5	Árboles generales	Categorías y jerarquías
-TP 6	Heap	Rankings y prioridades
-TP 7	Grafos	Modelado de relaciones
-TP 8	BFS / DFS	Exploración de la red
-TP 9	Caminos mínimos	Optimización
-TP 10	Integración	Producto final + defensa
+```bash
+python Trabajo_Main.py
+```
+
+## Estructura del proyecto
+
+```text
+.
+├── Trabajo_Main.py
+├── catalogo.py
+├── datos.py
+├── videojuego.py
+├── datos/
+│   └── videojuegos.json
+├── Objetivos.txt
+└── UML Tp Estructura de Datos.png
+```
+
+## Proximas etapas
+
+El proyecto esta preparado para incorporar las estructuras de datos pedidas en
+las siguientes entregas:
+
+- Arboles para busquedas eficientes.
+- Heap para rankings y prioridades.
+- Grafos para relaciones entre videojuegos.
+- BFS/DFS y caminos minimos para recomendaciones y conexiones entre juegos.
