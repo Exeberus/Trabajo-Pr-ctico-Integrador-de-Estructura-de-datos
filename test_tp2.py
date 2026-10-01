@@ -2,6 +2,7 @@ import unittest
 
 from busquedas import IndiceTitulosArbol, busqueda_secuencial_por_titulo
 from catalogo import CatalogoVideojuegos
+from Trabajo_Main import medir_promedio_busqueda
 from videojuego import Videojuego
 
 
@@ -44,6 +45,16 @@ class BusquedasTp2Test(unittest.TestCase):
 
         self.assertEqual([juego.nombre for juego in secuencial], ["Hades"])
         self.assertEqual([juego.nombre for juego in arbol], ["Hades"])
+
+    def test_medicion_devuelve_resultado_y_tiempo_positivo(self):
+        tiempo, resultados = medir_promedio_busqueda(
+            lambda titulo: busqueda_secuencial_por_titulo(self.juegos, titulo),
+            "Hades",
+            repeticiones=2,
+        )
+
+        self.assertGreater(tiempo, 0)
+        self.assertEqual([juego.nombre for juego in resultados], ["Hades"])
 
 
 if __name__ == "__main__":

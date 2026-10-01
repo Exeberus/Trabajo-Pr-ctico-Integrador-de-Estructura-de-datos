@@ -1,10 +1,12 @@
 from pathlib import Path
+from time import perf_counter_ns
 
 from catalogo import CatalogoVideojuegos
 from datos import cargar_videojuegos_desde_json
 
 
 RUTA_DATOS = Path(__file__).parent / "datos" / "videojuegos.json"
+REPETICIONES_MEDICION = 10_000
 
 
 def mostrar_juegos(videojuegos):
@@ -53,6 +55,42 @@ def buscar_juego(catalogo):
     mostrar_juegos(resultados)
 
 
+def medir_promedio_busqueda(buscar, titulo, repeticiones=REPETICIONES_MEDICION):
+    for _ in range(100):
+        buscar(titulo)
+
+    inicio = perf_counter_ns()
+
+    for _ in range(repeticiones):
+        resultados = buscar(titulo)
+
+    tiempo_total_ns = perf_counter_ns() - inicio
+    tiempo_promedio_ms = tiempo_total_ns / repeticiones / 1_000_000
+    return tiempo_promedio_ms, resultados
+
+
+def comparar_busquedas(catalogo):
+    titulo = pedir_texto("\nIngrese el titulo exacto a medir: ")
+    tiempo_secuencial, resultados_secuencial = medir_promedio_busqueda(
+        catalogo.buscar_por_titulo_secuencial,
+        titulo,
+    )
+    tiempo_arbol, resultados_arbol = medir_promedio_busqueda(
+        catalogo.buscar_por_titulo_en_arbol,
+        titulo,
+    )
+
+    nombres_secuencial = [juego.nombre for juego in resultados_secuencial]
+    nombres_arbol = [juego.nombre for juego in resultados_arbol]
+
+    print("\n--- Comparacion sobre el catalogo actual ---")
+    print(f"Videojuegos cargados: {len(catalogo.listar())}")
+    print(f"Consultas por estrategia: {REPETICIONES_MEDICION}")
+    print(f"Secuencial: {tiempo_secuencial:.6f} ms por busqueda")
+    print(f"Arbol: {tiempo_arbol:.6f} ms por busqueda")
+    print(f"Resultados coinciden: {'si' if nombres_secuencial == nombres_arbol else 'no'}")
+
+
 def filtrar_por_genero(catalogo):
     genero = pedir_texto("\nIngrese el genero: ")
     resultados = catalogo.filtrar_por_genero(genero)
@@ -99,6 +137,7 @@ def mostrar_menu():
     print("4. Filtrar por plataforma")
     print("5. Explorar categorias")
     print("6. Top por puntuacion")
+    print("7. Comparar tiempos de busqueda")
     print("0. Salir")
 
 
@@ -113,6 +152,7 @@ def ejecutar_terminal():
         "4": filtrar_por_plataforma,
         "5": explorar_categorias,
         "6": mostrar_top,
+        "7": comparar_busquedas,
     }
 
     while True:

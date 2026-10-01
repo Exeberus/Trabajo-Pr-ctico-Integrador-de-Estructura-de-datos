@@ -62,6 +62,10 @@ Para ejecutar las mediciones del TP 2:
 python experimento_tp2.py
 ```
 
+La opcion 7 del menu mide las dos estrategias sobre los videojuegos reales
+cargados desde el archivo JSON. Repite cada consulta 10.000 veces y muestra el
+tiempo promedio para poder hacer una demostracion en vivo.
+
 Para ejecutar las pruebas:
 
 ```bash
