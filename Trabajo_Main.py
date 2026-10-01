@@ -39,10 +39,17 @@ def listar_juegos(catalogo):
 
 
 def buscar_juego(catalogo):
-    nombre = pedir_texto("\nIngrese el nombre o parte del nombre: ")
-    resultados = catalogo.buscar_por_nombre(nombre)
+    nombre = pedir_texto("\nIngrese el titulo exacto: ")
+    estrategia = pedir_texto("Estrategia [1: secuencial, 2: arbol] [1]: ")
 
-    print("\n--- Resultado de busqueda ---")
+    if estrategia == "2":
+        resultados = catalogo.buscar_por_titulo_en_arbol(nombre)
+        nombre_estrategia = "busqueda en arbol"
+    else:
+        resultados = catalogo.buscar_por_titulo_secuencial(nombre)
+        nombre_estrategia = "busqueda secuencial"
+
+    print(f"\n--- Resultado de {nombre_estrategia} ---")
     mostrar_juegos(resultados)
 
 

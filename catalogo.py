@@ -1,3 +1,4 @@
+from busquedas import IndiceTitulosArbol, busqueda_secuencial_por_titulo
 from videojuego import Videojuego
 
 
@@ -7,6 +8,7 @@ class CatalogoVideojuegos:
         self._indice_por_nombre = {}
         self._indice_por_genero = {}
         self._indice_por_plataforma = {}
+        self._indice_titulos_arbol = IndiceTitulosArbol()
 
         if videojuegos is not None:
             for videojuego in videojuegos:
@@ -20,6 +22,7 @@ class CatalogoVideojuegos:
         self._agregar_a_indice_nombre(videojuego)
         self._agregar_a_indice_genero(videojuego)
         self._agregar_a_indice_plataforma(videojuego)
+        self._indice_titulos_arbol.agregar(videojuego)
 
     def listar(self):
         return self._videojuegos.copy()
@@ -35,6 +38,12 @@ class CatalogoVideojuegos:
             for videojuego in self._videojuegos
             if texto_normalizado in self._normalizar(videojuego.nombre)
         ]
+
+    def buscar_por_titulo_secuencial(self, titulo):
+        return busqueda_secuencial_por_titulo(self._videojuegos, titulo)
+
+    def buscar_por_titulo_en_arbol(self, titulo):
+        return self._indice_titulos_arbol.buscar(titulo)
 
     def filtrar_por_genero(self, genero):
         clave = self._normalizar(genero)
