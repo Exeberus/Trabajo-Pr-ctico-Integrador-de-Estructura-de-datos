@@ -81,6 +81,65 @@ class IndiceTitulosArbol:
 
         return []
 
+    def recorrer_inorden(self):
+        """Devuelve los videojuegos ordenados alfabeticamente por titulo."""
+        videojuegos = []
+        pila = []
+        nodo_actual = self._raiz
+
+        while pila or nodo_actual is not None:
+            while nodo_actual is not None:
+                pila.append(nodo_actual)
+                nodo_actual = nodo_actual.izquierdo
+
+            nodo_actual = pila.pop()
+            videojuegos.extend(nodo_actual.videojuegos)
+            nodo_actual = nodo_actual.derecho
+
+        return videojuegos
+
+    def recorrer_preorden(self):
+        """Devuelve los videojuegos visitando raiz, izquierda y derecha."""
+        if self._raiz is None:
+            return []
+
+        videojuegos = []
+        pendientes = [self._raiz]
+
+        while pendientes:
+            nodo = pendientes.pop()
+            videojuegos.extend(nodo.videojuegos)
+
+            if nodo.derecho is not None:
+                pendientes.append(nodo.derecho)
+            if nodo.izquierdo is not None:
+                pendientes.append(nodo.izquierdo)
+
+        return videojuegos
+
+    def recorrer_postorden(self):
+        """Devuelve los videojuegos visitando izquierda, derecha y raiz."""
+        if self._raiz is None:
+            return []
+
+        videojuegos = []
+        pendientes = [(self._raiz, False)]
+
+        while pendientes:
+            nodo, visitado = pendientes.pop()
+
+            if visitado:
+                videojuegos.extend(nodo.videojuegos)
+                continue
+
+            pendientes.append((nodo, True))
+            if nodo.derecho is not None:
+                pendientes.append((nodo.derecho, False))
+            if nodo.izquierdo is not None:
+                pendientes.append((nodo.izquierdo, False))
+
+        return videojuegos
+
     @property
     def cantidad_titulos(self):
         return self._cantidad_titulos

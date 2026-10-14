@@ -91,6 +91,16 @@ def comparar_busquedas(catalogo):
     print(f"Resultados coinciden: {'si' if nombres_secuencial == nombres_arbol else 'no'}")
 
 
+def recorrer_indice_titulos(catalogo):
+    orden = pedir_texto("\nRecorrido [1: inorden, 2: preorden, 3: postorden]: ")
+    ordenes = {"1": "inorden", "2": "preorden", "3": "postorden"}
+    orden = ordenes.get(orden, "inorden")
+    resultados = catalogo.recorrer_titulos(orden)
+
+    print(f"\n--- Recorrido {orden} del indice de titulos ---")
+    mostrar_juegos(resultados)
+
+
 def filtrar_por_genero(catalogo):
     genero = pedir_texto("\nIngrese el genero: ")
     resultados = catalogo.filtrar_por_genero(genero)
@@ -138,6 +148,7 @@ def mostrar_menu():
     print("5. Explorar categorias")
     print("6. Top por puntuacion")
     print("7. Comparar tiempos de busqueda")
+    print("8. Recorrer indice por titulo")
     print("0. Salir")
 
 
@@ -153,6 +164,7 @@ def ejecutar_terminal():
         "5": explorar_categorias,
         "6": mostrar_top,
         "7": comparar_busquedas,
+        "8": recorrer_indice_titulos,
     }
 
     while True:

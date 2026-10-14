@@ -45,6 +45,21 @@ class CatalogoVideojuegos:
     def buscar_por_titulo_en_arbol(self, titulo):
         return self._indice_titulos_arbol.buscar(titulo)
 
+    def recorrer_titulos(self, orden="inorden"):
+        """Recorre el indice por titulo en inorden, preorden o postorden."""
+        recorridos = {
+            "inorden": self._indice_titulos_arbol.recorrer_inorden,
+            "preorden": self._indice_titulos_arbol.recorrer_preorden,
+            "postorden": self._indice_titulos_arbol.recorrer_postorden,
+        }
+
+        try:
+            recorrer = recorridos[orden.strip().lower()]
+        except (AttributeError, KeyError):
+            raise ValueError("El recorrido debe ser inorden, preorden o postorden.") from None
+
+        return recorrer()
+
     def filtrar_por_genero(self, genero):
         clave = self._normalizar(genero)
         return self._indice_por_genero.get(clave, []).copy()

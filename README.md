@@ -48,6 +48,17 @@ Esta version inicial cumple con los puntos pedidos para la primera etapa:
 - Incluye [el analisis completo](ANALISIS_TP2.md) con la tabla de resultados,
   complejidades y conclusion tecnica.
 
+### TP 3 - Arbol binario de busqueda
+
+- Integra un indice de titulos al catalogo para buscar videojuegos por titulo
+  exacto, conservando coincidencias duplicadas.
+- Permite comparar desde la interfaz la busqueda secuencial del TP 2 con la
+  busqueda en el arbol.
+- Incorpora recorridos inorden, preorden y postorden accesibles desde la opcion
+  8 del menu.
+- Incluye [el analisis del arbol y sus complejidades](ANALISIS_TP3.md) y pruebas
+  especificas en `test_tp3.py`.
+
 ## Como ejecutar
 
 Desde la carpeta del proyecto:
