@@ -4,6 +4,7 @@ from time import perf_counter_ns
 from catalogo import CatalogoVideojuegos
 from datos import cargar_videojuegos_desde_json
 
+from arbol_general import ArbolCategorias
 
 RUTA_DATOS = Path(__file__).parent / "datos" / "videojuegos.json"
 REPETICIONES_MEDICION = 10_000
@@ -118,15 +119,38 @@ def filtrar_por_plataforma(catalogo):
 
 
 def explorar_categorias(catalogo):
-    print("\n--- Generos disponibles ---")
-    for genero in catalogo.obtener_generos():
-        cantidad = len(catalogo.filtrar_por_genero(genero))
-        print(f"- {genero} ({cantidad} juegos)")
+    print("\n--- Explorando Jerarquia de Categorias (Arbol N-ario) ---")
+    
+    arbol = ArbolCategorias("Videojuegos")
+    
+    arbol.agregar_categoria("Videojuegos", "Accion y Aventura")
+    arbol.agregar_categoria("Videojuegos", "Rol y Supervivencia")
+    arbol.agregar_categoria("Videojuegos", "Plataformas y Puzzles")
+    
+    arbol.agregar_categoria("Accion y Aventura", "Aventura")
+    arbol.agregar_categoria("Accion y Aventura", "Accion")
+    arbol.agregar_categoria("Accion y Aventura", "Metroidvania")
+    
+    arbol.agregar_categoria("Rol y Supervivencia", "RPG")
+    arbol.agregar_categoria("Rol y Supervivencia", "Roguelike")
+    arbol.agregar_categoria("Rol y Supervivencia", "Sandbox")
+    
+    arbol.agregar_categoria("Plataformas y Puzzles", "Plataformas")
+    arbol.agregar_categoria("Plataformas y Puzzles", "Puzzle")
+    arbol.agregar_categoria("Plataformas y Puzzles", "Simulacion")
 
-    print("\n--- Plataformas disponibles ---")
-    for plataforma in catalogo.obtener_plataformas():
-        cantidad = len(catalogo.filtrar_por_plataforma(plataforma))
-        print(f"- {plataforma} ({cantidad} juegos)")
+    for juego in catalogo.listar():
+        
+        nodo_categoria = arbol.buscar_categoria(arbol.raiz, juego.genero)
+        
+        if nodo_categoria is not None:
+            nodo_categoria.videojuegos.append(juego)
+        else:
+
+            nueva_categoria = arbol.agregar_categoria("Videojuegos", juego.genero)
+            nueva_categoria.videojuegos.append(juego)
+            
+    arbol.recorrer_y_mostrar(arbol.raiz)
 
 
 def mostrar_top(catalogo):
