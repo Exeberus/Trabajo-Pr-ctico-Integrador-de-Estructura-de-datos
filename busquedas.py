@@ -22,6 +22,7 @@ class NodoTitulo:
         self.videojuegos = [videojuego]
         self.izquierdo = None
         self.derecho = None
+        self.altura = 1
 
 
 class IndiceTitulosArbol:
@@ -35,36 +36,100 @@ class IndiceTitulosArbol:
             for videojuego in videojuegos:
                 self.agregar(videojuego)
 
+    def _obtener_altura(self, nodo):
+
+        if not nodo:
+
+            return 0
+        
+        return nodo.altura
+
+    def _obtener_balance(self, nodo):
+
+        if not nodo:
+
+            return 0
+
+        return self._obtener_altura(nodo.izquierdo) - self._obtener_altura(nodo.derecho)
+
+    def _rotar_derecha(self, z):
+
+        y = z.izquierdo
+        T3 = y.derecho
+
+        y.derecho = z
+        z.izquierdo = T3
+
+        z.altura = 1 + max(self._obtener_altura(z.izquierdo), self._obtener_altura(z.derecho))
+        y.altura = 1 + max(self._obtener_altura(y.izquierdo), self._obtener_altura(y.derecho))
+
+        return y # 'y' es la nueva raíz de este sub-árbol
+
+    def _rotar_izquierda(self, z):
+        y = z.derecho
+        T2 = y.izquierdo
+
+        y.izquierdo = z
+        z.derecho = T2
+
+        z.altura = 1 + max(self._obtener_altura(z.izquierdo), self._obtener_altura(z.derecho))
+        y.altura = 1 + max(self._obtener_altura(y.izquierdo), self._obtener_altura(y.derecho))
+
+        return y
+
     def agregar(self, videojuego):
+
         titulo = normalizar_titulo(videojuego.nombre)
 
         if titulo == "":
+
             raise ValueError("El titulo del videojuego no puede estar vacio.")
+        
+        self._raiz = self._insertar_recursivo(self._raiz, titulo, videojuego)
 
-        if self._raiz is None:
-            self._raiz = NodoTitulo(titulo, videojuego)
-            self._cantidad_titulos = 1
-            return
+    def _insertar_recursivo(self, nodo, titulo, videojuego):
 
-        nodo_actual = self._raiz
+        if not nodo:
+            self._cantidad_titulos += 1
+            return NodoTitulo(titulo, videojuego)
 
-        while True:
-            if titulo == nodo_actual.titulo:
-                nodo_actual.videojuegos.append(videojuego)
-                return
+        if titulo == nodo.titulo:
+            nodo.videojuegos.append(videojuego)
+            return nodo
+            
+        elif titulo < nodo.titulo:
 
-            if titulo < nodo_actual.titulo:
-                if nodo_actual.izquierdo is None:
-                    nodo_actual.izquierdo = NodoTitulo(titulo, videojuego)
-                    self._cantidad_titulos += 1
-                    return
-                nodo_actual = nodo_actual.izquierdo
-            else:
-                if nodo_actual.derecho is None:
-                    nodo_actual.derecho = NodoTitulo(titulo, videojuego)
-                    self._cantidad_titulos += 1
-                    return
-                nodo_actual = nodo_actual.derecho
+            nodo.izquierdo = self._insertar_recursivo(nodo.izquierdo, titulo, videojuego)
+
+        else:
+
+            nodo.derecho = self._insertar_recursivo(nodo.derecho, titulo, videojuego)
+
+
+        nodo.altura = 1 + max(self._obtener_altura(nodo.izquierdo), self._obtener_altura(nodo.derecho))
+
+        balance = self._obtener_balance(nodo)
+
+        if balance > 1 and titulo < nodo.izquierdo.titulo:
+
+            return self._rotar_derecha(nodo)
+
+        if balance < -1 and titulo > nodo.derecho.titulo:
+
+            return self._rotar_izquierda(nodo)
+
+
+        if balance > 1 and titulo > nodo.izquierdo.titulo:
+
+            nodo.izquierdo = self._rotar_izquierda(nodo.izquierdo)
+            return self._rotar_derecha(nodo)
+        
+        if balance < -1 and titulo < nodo.derecho.titulo:
+
+            nodo.derecho = self._rotar_derecha(nodo.derecho)
+            return self._rotar_izquierda(nodo)
+
+        return nodo
 
     def buscar(self, titulo):
         titulo_normalizado = normalizar_titulo(titulo)

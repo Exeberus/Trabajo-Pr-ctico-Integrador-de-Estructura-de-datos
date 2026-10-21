@@ -59,6 +59,11 @@ Esta version inicial cumple con los puntos pedidos para la primera etapa:
 - Incluye [el analisis del arbol y sus complejidades](ANALISIS_TP3.md) y pruebas
   especificas en `test_tp3.py`.
 
+### TP 4 - BST Enfermo y aplicación de AVL
+- TP4 - Realizamos un código de prueba cumpliendo únicamente la consigna 1 y pusimos para que mida cuanto tardaba la ejecución, tarda 0.052484ms *Con 1000 juegos. Y programando y probando con el AVL implementado notamos una mejora de
+0.000731ms, lo implementamos desde nuestro código en búsqueda.py refactorizando el método agregar y adentro de la clase IndiceTitulosArbol las rotaciones del arbol.
+- Cuando el árbol se desbalancea, pierde su propiedad fundamental de dividir la información y se convierte estructuralmente en una lista común, eso hace que sea esencial la implementación AVL. Un árbol AVL obliga a la estructura a mantener una forma de pirámide ramificada mediante las rotaciones. Gracias a este equilibrio geométrico, cada vez que el buscador baja un nivel (eligiendo izquierda o derecha), está descartando automáticamente la mitad del catálogo restante.
+
 ## Como ejecutar
 
 Desde la carpeta del proyecto:
