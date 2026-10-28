@@ -64,6 +64,20 @@ Esta version inicial cumple con los puntos pedidos para la primera etapa:
 0.000731ms, lo implementamos desde nuestro código en búsqueda.py refactorizando el método agregar y adentro de la clase IndiceTitulosArbol las rotaciones del arbol.
 - Cuando el árbol se desbalancea, pierde su propiedad fundamental de dividir la información y se convierte estructuralmente en una lista común, eso hace que sea esencial la implementación AVL. Un árbol AVL obliga a la estructura a mantener una forma de pirámide ramificada mediante las rotaciones. Gracias a este equilibrio geométrico, cada vez que el buscador baja un nivel (eligiendo izquierda o derecha), está descartando automáticamente la mitad del catálogo restante.
 
+### TP 6 - Heap de prioridades y recomendaciones
+
+- Incorpora `heap_prioridad.py`, con un heap binario maximo implementado
+  manualmente mediante un arreglo y operaciones de subir/bajar.
+- La prioridad es la puntuacion del videojuego, el dato de valoracion que ya
+  existe en el catalogo. En caso de empate, se muestra primero el que se agrego
+  antes. El dataset actual no contiene una medida de popularidad.
+- El catalogo actualiza el heap al agregar cada videojuego y usa una copia del
+  heap para consultar el Top-N sin cambiar el ranking guardado.
+- La consulta extrae solo los N resultados solicitados; cuesta O(n + N log n)
+  contando la copia del heap, frente a O(n log n) por ordenar todos los juegos
+  en cada consulta.
+- La opcion 6 del menu muestra este ranking como recomendaciones.
+
 ## Como ejecutar
 
 Desde la carpeta del proyecto:
@@ -95,6 +109,7 @@ python -m unittest -v
 ├── Trabajo_Main.py
 ├── catalogo.py
 ├── busquedas.py
+├── heap_prioridad.py
 ├── datos.py
 ├── videojuego.py
 ├── experimento_tp2.py

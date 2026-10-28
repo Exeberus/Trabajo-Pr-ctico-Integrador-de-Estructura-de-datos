@@ -157,7 +157,7 @@ def mostrar_top(catalogo):
     limite = pedir_entero("\nCantidad a mostrar [10]: ", 10)
     resultados = catalogo.top_por_puntuacion(limite)
 
-    print(f"\n--- Top {limite} videojuegos por puntuacion ---")
+    print(f"\n--- Top {limite} recomendaciones por puntuacion (heap) ---")
     mostrar_juegos(resultados)
 
 
@@ -170,7 +170,7 @@ def mostrar_menu():
     print("3. Filtrar por genero")
     print("4. Filtrar por plataforma")
     print("5. Explorar categorias")
-    print("6. Top por puntuacion")
+    print("6. Top de recomendaciones por puntuacion (heap)")
     print("7. Comparar tiempos de busqueda")
     print("8. Recorrer indice por titulo")
     print("0. Salir")
