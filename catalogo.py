@@ -1,20 +1,26 @@
 from busquedas import IndiceTitulosArbol, busqueda_secuencial_por_titulo
 from videojuego import Videojuego
-
+from grafo_videojuegos import GrafoVideojuegos
 
 class CatalogoVideojuegos:
+
     def __init__(self, videojuegos=None):
         self._videojuegos = []
         self._indice_por_nombre = {}
         self._indice_por_genero = {}
         self._indice_por_plataforma = {}
+        self._grafo = GrafoVideojuegos()
         self._indice_titulos_arbol = IndiceTitulosArbol()
 
         if videojuegos is not None:
             for videojuego in videojuegos:
                 self.agregar(videojuego)
 
+    def juegos_relacionados(self, nombre):
+        return self._grafo.relacionados(nombre)
+
     def agregar(self, videojuego):
+
         if not isinstance(videojuego, Videojuego):
             raise TypeError("Solo se pueden agregar objetos de tipo Videojuego.")
 
@@ -23,6 +29,7 @@ class CatalogoVideojuegos:
         self._agregar_a_indice_genero(videojuego)
         self._agregar_a_indice_plataforma(videojuego)
         self._indice_titulos_arbol.agregar(videojuego)
+        self._grafo.agregar_videojuego(videojuego)
 
     def listar(self):
         return self._videojuegos.copy()

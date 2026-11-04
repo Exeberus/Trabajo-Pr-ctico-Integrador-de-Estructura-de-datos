@@ -160,6 +160,21 @@ def mostrar_top(catalogo):
     print(f"\n--- Top {limite} videojuegos por puntuacion ---")
     mostrar_juegos(resultados)
 
+def mostrar_juegos_relacionados(catalogo):
+
+    nombre = pedir_texto("\nIngrese el titulo del videojuego: ")
+    resultados = catalogo.juegos_relacionados(nombre)
+
+    print("\n--- Juegos relacionados ---")
+
+    if not resultados:
+
+        print("No se encontraron juegos relacionados.")
+        return
+
+    for indice, (juego, puntaje) in enumerate(resultados, start=1):
+
+        print(f"{indice}. {juego.nombre} | Similitud: {puntaje}")
 
 def mostrar_menu():
     print("\n==============================")
@@ -173,6 +188,7 @@ def mostrar_menu():
     print("6. Top por puntuacion")
     print("7. Comparar tiempos de busqueda")
     print("8. Recorrer indice por titulo")
+    print("9. Ver juegos relacionados (grafo)")
     print("0. Salir")
 
 
@@ -189,6 +205,7 @@ def ejecutar_terminal():
         "6": mostrar_top,
         "7": comparar_busquedas,
         "8": recorrer_indice_titulos,
+        "9": mostrar_juegos_relacionados,
     }
 
     while True:
