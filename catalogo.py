@@ -16,8 +16,14 @@ class CatalogoVideojuegos:
             for videojuego in videojuegos:
                 self.agregar(videojuego)
 
+    def buscar_camino_mas_corto(self, origen, destino):
+        return self._grafo.camino_mas_corto(origen, destino)
+
     def juegos_relacionados(self, nombre):
         return self._grafo.relacionados(nombre)
+
+    def explorar_en_profundidad(self, origen):
+        return self._grafo.recorrer_profundidad(origen)
 
     def agregar(self, videojuego):
 
@@ -105,6 +111,12 @@ class CatalogoVideojuegos:
         for plataforma in videojuego.plataforma:
             clave = self._normalizar(plataforma)
             self._indice_por_plataforma.setdefault(clave, []).append(videojuego)
+
+    def buscar_camino_mas_corto(self, origen, destino):
+        return self._grafo.camino_mas_corto(origen, destino)
+
+    def explorar_en_profundidad(self, origen):
+        return self._grafo.recorrer_profundidad(origen)
 
     @staticmethod
     def _normalizar(texto):
