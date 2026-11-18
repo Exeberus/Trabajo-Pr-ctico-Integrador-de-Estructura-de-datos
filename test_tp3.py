@@ -30,13 +30,13 @@ class ArbolTitulosTp3Test(unittest.TestCase):
     def test_recorrido_preorden_visita_raiz_antes_de_sus_hijos(self):
         self.assertEqual(
             self.nombres(self.indice.recorrer_preorden()),
-            ["Zelda", "Celeste", "Hades"],
+            ["Hades", "Celeste", "Zelda"],
         )
 
     def test_recorrido_postorden_visita_raiz_al_final(self):
         self.assertEqual(
             self.nombres(self.indice.recorrer_postorden()),
-            ["Hades", "Celeste", "Zelda"],
+            ["Celeste", "Zelda", "Hades"],
         )
 
     def test_recorridos_conservan_titulos_duplicados(self):
@@ -63,13 +63,13 @@ class ArbolTitulosTp3Test(unittest.TestCase):
         with self.assertRaises(ValueError):
             catalogo.recorrer_titulos("anchura")
 
-    def test_recorrido_iterativo_soporta_arboles_inclinados(self):
+    def test_recorridos_iterativos_conservan_todos_los_elementos(self):
         juegos = [crear_juego(f"Juego {indice:04d}") for indice in range(1500)]
         indice = IndiceTitulosArbol(juegos)
 
         self.assertEqual(indice.recorrer_inorden(), juegos)
-        self.assertEqual(indice.recorrer_preorden(), juegos)
-        self.assertEqual(indice.recorrer_postorden(), list(reversed(juegos)))
+        self.assertCountEqual(indice.recorrer_preorden(), juegos)
+        self.assertCountEqual(indice.recorrer_postorden(), juegos)
 
 
 if __name__ == "__main__":

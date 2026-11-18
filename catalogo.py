@@ -1,4 +1,5 @@
 from busquedas import IndiceTitulosArbol, busqueda_secuencial_por_titulo
+from heap_prioridad import HeapPrioridadVideojuegos
 from videojuego import Videojuego
 from grafo_videojuegos import GrafoVideojuegos
 
@@ -11,6 +12,7 @@ class CatalogoVideojuegos:
         self._indice_por_plataforma = {}
         self._grafo = GrafoVideojuegos()
         self._indice_titulos_arbol = IndiceTitulosArbol()
+        self._heap_prioridad = HeapPrioridadVideojuegos()
 
         if videojuegos is not None:
             for videojuego in videojuegos:
@@ -35,6 +37,7 @@ class CatalogoVideojuegos:
         self._agregar_a_indice_genero(videojuego)
         self._agregar_a_indice_plataforma(videojuego)
         self._indice_titulos_arbol.agregar(videojuego)
+        self._heap_prioridad.insertar(videojuego)
         self._grafo.agregar_videojuego(videojuego)
 
     def listar(self):
@@ -93,11 +96,7 @@ class CatalogoVideojuegos:
         return sorted(plataformas)
 
     def top_por_puntuacion(self, limite=10):
-        return sorted(
-            self._videojuegos,
-            key=lambda videojuego: videojuego.puntuacion,
-            reverse=True,
-        )[:limite]
+        return self._heap_prioridad.obtener_top(limite)
 
     def _agregar_a_indice_nombre(self, videojuego):
         clave = self._normalizar(videojuego.nombre)
@@ -111,12 +110,6 @@ class CatalogoVideojuegos:
         for plataforma in videojuego.plataforma:
             clave = self._normalizar(plataforma)
             self._indice_por_plataforma.setdefault(clave, []).append(videojuego)
-
-    def buscar_camino_mas_corto(self, origen, destino):
-        return self._grafo.camino_mas_corto(origen, destino)
-
-    def explorar_en_profundidad(self, origen):
-        return self._grafo.recorrer_profundidad(origen)
 
     @staticmethod
     def _normalizar(texto):

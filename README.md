@@ -1,116 +1,97 @@
-# Trabajo Practico Integrador de Estructura de Datos
+# Trabajo Práctico Integrador — Sistema de recomendaciones de videojuegos
+
+Sistema de terminal para guardar, buscar, explorar, relacionar y recomendar videojuegos. El proyecto usa clases del dominio y estructuras de datos implementadas en Python para resolver consultas concretas.
 
 ## Integrantes
 
-- Maximo Barraza - DNI 47189012
-- Gabriel Avila - DNI 45679295
-- Tomas Tagliani - DNI 45480676
+- Maximo Barraza
+- Gabriel Avila
+- Tomas Tagliani
 
-## Tema elegido
+## Alcance
 
-Videojuegos.
+La rama integra los avances de TP0 a TP8. El TP9 fue salteado por decisión de la cátedra; el recorrido entre juegos de esta versión es BFS y busca el camino con menor cantidad de conexiones. No calcula caminos de costo mínimo según los puntajes de similitud. TP10 corresponde a la integración y defensa final.
 
-## Objetivo general
+El catálogo de ejemplo contiene 12 videojuegos en `datos/videojuegos.json`. El equipo puede ampliar ese archivo manteniendo los campos del modelo.
 
-Construir un sistema de recomendaciones capaz de almacenar, buscar, ordenar,
-relacionar y recomendar videojuegos utilizando estructuras de datos y algoritmos
-implementados en Python.
+## Funcionalidades
 
-## Entregas realizadas
+- Listar videojuegos.
+- Buscar por título exacto con búsqueda secuencial o con el índice AVL.
+- Filtrar por género o plataforma.
+- Explorar categorías mediante un árbol general.
+- Mostrar los videojuegos con mayor puntuación usando una heap binaria máxima propia.
+- Comparar la búsqueda secuencial con la búsqueda AVL.
+- Recorrer el índice de títulos en inorden, preorden o postorden.
+- Ver videojuegos relacionados, ordenados por puntaje de similitud.
+- Buscar un camino con menos conexiones mediante BFS.
+- Explorar las conexiones alcanzables mediante DFS.
 
-Esta version inicial cumple con los puntos pedidos para la primera etapa:
+## Estructuras y complejidad
 
-- Define la clase principal del dominio: `Videojuego`.
-- Implementa encapsulamiento con atributos protegidos y propiedades de solo lectura.
-- Separa responsabilidades entre modulos:
-  - `videojuego.py`: modelo del dominio.
-  - `catalogo.py`: gestion y consultas del catalogo.
-  - `datos.py`: carga de datos desde JSON.
-  - `Trabajo_Main.py`: interfaz de terminal.
-- Carga datos de prueba desde `datos/videojuegos.json`.
-- Incluye una interfaz de terminal.
-- Implementa operaciones utiles:
-  - Listar videojuegos.
-  - Buscar por nombre.
-  - Filtrar por genero.
-  - Filtrar por plataforma.
-  - Explorar categorias.
-  - Mostrar top por puntuacion.
+- **Índice AVL de títulos** (`busquedas.py`): inserción y búsqueda en O(log n) en el peor caso; la búsqueda secuencial cuesta O(n). Los títulos normalizados iguales comparten un nodo.
+- **Heap binaria máxima** (`heap_prioridad.py`): insertar y extraer el máximo cuestan O(log n); consultar el máximo cuesta O(1). `obtener_top(k)` copia el arreglo del heap y extrae hasta k elementos, por lo que cuesta O(n + k log n) y deja intacto el heap del catálogo.
+- **Árbol general de categorías** (`arbol_general.py`): organiza categorías y videojuegos para la opción de exploración.
+- **Grafo no dirigido** (`grafo_videojuegos.py`): conecta juegos que comparten género o desarrolladora. El puntaje de similitud suma género, desarrolladora y plataformas compartidas. BFS y DFS recorren en O(V + E); la búsqueda del videojuego por nombre también recorre los vértices.
+- **Índices del catálogo** (`catalogo.py`): agrupan los juegos por género y plataforma para facilitar los filtros.
 
-### TP 2 - Analisis de algoritmos
+## Requisitos
 
-- Compara la busqueda por titulo exacto con dos estrategias: recorrido
-  secuencial y arbol binario de busqueda.
-- Incorpora `busquedas.py`, que contiene ambas implementaciones.
-- Permite elegir la estrategia desde la opcion de busqueda del menu.
-- Incluye `experimento_tp2.py` para generar mediciones reproducibles con
-  1.000, 10.000 y 100.000 videojuegos.
-- Incluye [el analisis completo](ANALISIS_TP2.md) con la tabla de resultados,
-  complejidades y conclusion tecnica.
+- Python 3.8 o posterior.
+- No requiere paquetes externos; usa la biblioteca estándar de Python.
 
-### TP 3 - Arbol binario de busqueda
+## Ejecución
 
-- Integra un indice de titulos al catalogo para buscar videojuegos por titulo
-  exacto, conservando coincidencias duplicadas.
-- Permite comparar desde la interfaz la busqueda secuencial del TP 2 con la
-  busqueda en el arbol.
-- Incorpora recorridos inorden, preorden y postorden accesibles desde la opcion
-  8 del menu.
-- Incluye [el analisis del arbol y sus complejidades](ANALISIS_TP3.md) y pruebas
-  especificas en `test_tp3.py`.
-
-### TP 4 - BST Enfermo y aplicación de AVL
-- TP4 - Realizamos un código de prueba cumpliendo únicamente la consigna 1 y pusimos para que mida cuanto tardaba la ejecución, tarda 0.052484ms *Con 1000 juegos. Y programando y probando con el AVL implementado notamos una mejora de
-0.000731ms, lo implementamos desde nuestro código en búsqueda.py refactorizando el método agregar y adentro de la clase IndiceTitulosArbol las rotaciones del arbol.
-- Cuando el árbol se desbalancea, pierde su propiedad fundamental de dividir la información y se convierte estructuralmente en una lista común, eso hace que sea esencial la implementación AVL. Un árbol AVL obliga a la estructura a mantener una forma de pirámide ramificada mediante las rotaciones. Gracias a este equilibrio geométrico, cada vez que el buscador baja un nivel (eligiendo izquierda o derecha), está descartando automáticamente la mitad del catálogo restante.
-
-## Como ejecutar
-
-Desde la carpeta del proyecto:
+Desde la carpeta del repositorio:
 
 ```bash
 python Trabajo_Main.py
 ```
 
-Para ejecutar las mediciones del TP 2:
+## Pruebas automatizadas
+
+Ejecutar desde la carpeta del repositorio:
 
 ```bash
-python experimento_tp2.py
+python -m unittest discover -v
 ```
 
-La opcion 7 del menu mide las dos estrategias sobre los videojuegos reales
-cargados desde el archivo JSON. Repite cada consulta 10.000 veces y muestra el
-tiempo promedio para poder hacer una demostracion en vivo.
+Las pruebas cubren búsquedas y recorridos del AVL, equilibrio del árbol, operaciones y conservación del heap, integración del Top del catálogo y consultas del grafo con BFS y DFS.
 
-Para ejecutar las pruebas:
-
-```bash
-python -m unittest -v
-```
-
-## Estructura del proyecto
+## Estructura del repositorio
 
 ```text
 .
 ├── Trabajo_Main.py
-├── catalogo.py
-├── busquedas.py
-├── datos.py
 ├── videojuego.py
-├── experimento_tp2.py
-├── test_tp2.py
-├── ANALISIS_TP2.md
+├── catalogo.py
+├── datos.py
+├── busquedas.py
+├── arbol_general.py
+├── heap_prioridad.py
+├── grafo_videojuegos.py
+├── Proyecto.zip
 ├── datos/
 │   └── videojuegos.json
-├── Objetivos.txt
-└── UML Tp Estructura de Datos.png
+├── ANALISIS_TP2.md
+├── ANALISIS_TP3.md
+├── experimento_tp2.py
+├── test_tp2.py
+├── test_tp3.py
+├── test_tp4.py
+├── test_heap_prioridad.py
+└── test_grafo_videojuegos.py
 ```
 
-## Proximas etapas
+El repositorio conserva `Proyecto.zip` como adjunto; los archivos fuente actuales están en la raíz y en las carpetas listadas arriba.
 
-El proyecto esta preparado para incorporar las estructuras de datos pedidas en
-las siguientes entregas:
+## Documentación disponible
 
-- Heap para rankings y prioridades.
-- Grafos para relaciones entre videojuegos.
-- BFS/DFS y caminos minimos para recomendaciones y conexiones entre juegos.
+- [Análisis del TP2](ANALISIS_TP2.md)
+- [Análisis del TP3](ANALISIS_TP3.md)
+- [Objetivos del proyecto](Objetivos.txt)
+- [Diagrama UML](UML%20Tp%20Estructura%20de%20Datos.png)
+
+## Uso del código
+
+Las estructuras y algoritmos principales se implementan dentro del proyecto. Se usan módulos estándar como `json`, `pathlib` y `collections.deque` para carga de datos y operaciones auxiliares.

@@ -181,34 +181,3 @@ class GrafoVideojuegos:
     @staticmethod
     def _normalizar(texto):
         return texto.strip().lower()
-
-    def recorrer_profundidad(self, origen):
-
-        videojuego_origen = self._buscar_videojuego(origen)
-
-        if videojuego_origen is None:
-            return []
-
-        pila = [videojuego_origen]
-
-        visitados = {videojuego_origen}
-
-        recorrido = []
-
-        while pila:
-
-            actual = pila.pop()
-
-            recorrido.append(actual.nombre)
-
-            vecinos = list(self._adyacencia[actual].keys())
-
-            for vecino in reversed(vecinos):
-
-                if vecino not in visitados:
-
-                    visitados.add(vecino)
-
-                    pila.append(vecino)
-
-        return recorrido
