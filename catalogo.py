@@ -1,14 +1,16 @@
 from busquedas import IndiceTitulosArbol, busqueda_secuencial_por_titulo
 from heap_prioridad import HeapPrioridadVideojuegos
 from videojuego import Videojuego
-
+from grafo_videojuegos import GrafoVideojuegos
 
 class CatalogoVideojuegos:
+
     def __init__(self, videojuegos=None):
         self._videojuegos = []
         self._indice_por_nombre = {}
         self._indice_por_genero = {}
         self._indice_por_plataforma = {}
+        self._grafo = GrafoVideojuegos()
         self._indice_titulos_arbol = IndiceTitulosArbol()
         self._heap_prioridad = HeapPrioridadVideojuegos()
 
@@ -16,7 +18,17 @@ class CatalogoVideojuegos:
             for videojuego in videojuegos:
                 self.agregar(videojuego)
 
+    def buscar_camino_mas_corto(self, origen, destino):
+        return self._grafo.camino_mas_corto(origen, destino)
+
+    def juegos_relacionados(self, nombre):
+        return self._grafo.relacionados(nombre)
+
+    def explorar_en_profundidad(self, origen):
+        return self._grafo.recorrer_profundidad(origen)
+
     def agregar(self, videojuego):
+
         if not isinstance(videojuego, Videojuego):
             raise TypeError("Solo se pueden agregar objetos de tipo Videojuego.")
 
@@ -26,6 +38,7 @@ class CatalogoVideojuegos:
         self._agregar_a_indice_plataforma(videojuego)
         self._indice_titulos_arbol.agregar(videojuego)
         self._heap_prioridad.insertar(videojuego)
+        self._grafo.agregar_videojuego(videojuego)
 
     def listar(self):
         return self._videojuegos.copy()

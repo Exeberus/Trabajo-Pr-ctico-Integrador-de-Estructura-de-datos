@@ -160,6 +160,59 @@ def mostrar_top(catalogo):
     print(f"\n--- Top {limite} recomendaciones por puntuacion (heap) ---")
     mostrar_juegos(resultados)
 
+def mostrar_juegos_relacionados(catalogo):
+
+    nombre = pedir_texto("\nIngrese el titulo del videojuego: ")
+    resultados = catalogo.juegos_relacionados(nombre)
+
+    print("\n--- Juegos relacionados ---")
+
+    if not resultados:
+
+        print("No se encontraron juegos relacionados.")
+        return
+
+    for indice, (juego, puntaje) in enumerate(resultados, start=1):
+
+        print(f"{indice}. {juego.nombre} | Similitud: {puntaje}")
+
+def buscar_camino_bfs(catalogo):
+
+    origen = pedir_texto("\nIngrese el videojuego de origen: ")
+    destino = pedir_texto("Ingrese el videojuego de destino: ")
+
+    camino = catalogo.buscar_camino_mas_corto(origen, destino)
+
+    print("\n--- Camino más corto (BFS) ---")
+
+    if not camino:
+        print("No se encontró un camino entre esos videojuegos.")
+        return
+
+    for indice, videojuego in enumerate(camino):
+        if indice == 0:
+            print(videojuego)
+        else:
+            print(f" -> {videojuego}")
+
+    print(f"\nCantidad de conexiones: {len(camino) - 1}")
+
+
+def explorar_red_dfs(catalogo):
+
+    origen = pedir_texto("\nIngrese el videojuego inicial: ")
+
+    recorrido = catalogo.explorar_en_profundidad(origen)
+
+    print("\n--- Exploración en profundidad (DFS) ---")
+
+    if not recorrido:
+        print("No se encontró el videojuego o no tiene conexiones.")
+        return
+
+    mostrar_juegos(recorrido)
+
+    print(f"\nVideojuegos encontrados: {len(recorrido)}")
 
 def mostrar_menu():
     print("\n==============================")
@@ -173,6 +226,9 @@ def mostrar_menu():
     print("6. Top de recomendaciones por puntuacion (heap)")
     print("7. Comparar tiempos de busqueda")
     print("8. Recorrer indice por titulo")
+    print("9. Ver juegos relacionados (grafo)")
+    print("10. Buscar camino mas corto (BFS)")
+    print("11. Explorar red en profundidad (DFS)")
     print("0. Salir")
 
 
@@ -189,6 +245,9 @@ def ejecutar_terminal():
         "6": mostrar_top,
         "7": comparar_busquedas,
         "8": recorrer_indice_titulos,
+        "9": mostrar_juegos_relacionados,
+        "10" : buscar_camino_bfs,
+        "11" : explorar_red_dfs
     }
 
     while True:
@@ -206,7 +265,6 @@ def ejecutar_terminal():
             continue
 
         accion(catalogo)
-
 
 if __name__ == "__main__":
     ejecutar_terminal()

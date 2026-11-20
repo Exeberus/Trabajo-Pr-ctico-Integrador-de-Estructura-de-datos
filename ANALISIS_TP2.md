@@ -21,7 +21,7 @@ incluso si dos videojuegos tienen el mismo titulo normalizado.
 | Estrategia | Mejor caso | Caso promedio | Peor caso |
 | --- | --- | --- | --- |
 | Secuencial | Omega(1), O(1) | Theta(n) | O(n), Theta(n) |
-| Arbol binario balanceado | Omega(1), O(1) | Theta(log n) | O(log n), Theta(log n) |
+| Arbol binario de busqueda (orden de insercion mezclado) | Omega(1), O(1) | Theta(log n) esperado | O(n), Theta(n) |
 
 La complejidad del arbol depende de su altura `h`: buscar cuesta O(h). Si los
 titulos se insertan ordenados, un arbol binario comun puede quedar inclinado y

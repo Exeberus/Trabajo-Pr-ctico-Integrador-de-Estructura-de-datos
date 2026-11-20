@@ -1,45 +1,59 @@
-""" Prueba de AVL """
+"""Pruebas de las propiedades de balance del índice AVL."""
 
-from time import perf_counter_ns
-from videojuego import Videojuego
+import unittest
+
 from busquedas import IndiceTitulosArbol
+from videojuego import Videojuego
 
-def test_desbalance():
-    print("--- Experimento: Desbalanceo del BST (TP04 - Punto 1) ---")
-    
-    # 1. Generar 1000 videojuegos con títulos ya ordenados alfabéticamente
-    videojuegos_ordenados = []
-    for i in range(100):
-        # Zfill rellena con ceros para que quede: Juego 000, Juego 001... Juego 999
-        titulo = f"Juego {str(i).zfill(3)}"
-        juego_falso = Videojuego(titulo, "Test", "TestDev", 10, "PC")
-        videojuegos_ordenados.append(juego_falso)
 
-    # 2. Insertarlos en el árbol binario normal
-    arbol_desbalanceado = IndiceTitulosArbol()
-    for juego in videojuegos_ordenados:
-        arbol_desbalanceado.agregar(juego)
-        
-    print(f"Se insertaron {arbol_desbalanceado.cantidad_titulos} juegos en orden alfabético.")
+def crear_juego(nombre):
+    return Videojuego(nombre, "Accion", "Estudio", 8.0, ["PC"])
 
-    # 3. Buscar el último juego (El peor caso posible, quedó en el fondo de la rama derecha)
-    titulo_a_buscar = "Juego 999"
-    
-    # Hacemos varias repeticiones para tener un promedio real de tiempo
-    repeticiones = 10_000
-    inicio = perf_counter_ns()
-    
-    for _ in range(repeticiones):
-        arbol_desbalanceado.buscar(titulo_a_buscar)
-        
-    tiempo_total_ns = perf_counter_ns() - inicio
-    tiempo_promedio_ms = tiempo_total_ns / repeticiones / 1_000_000
 
-    print(f"Buscando '{titulo_a_buscar}'...")
-    print(f"Tiempo promedio de búsqueda (Árbol deformado): {tiempo_promedio_ms:.6f} ms")
+class ArbolAvlTp4Test(unittest.TestCase):
+    def altura_y_validar_balance(self, nodo):
+        if nodo is None:
+            return 0
+
+        altura_izquierda = self.altura_y_validar_balance(nodo.izquierdo)
+        altura_derecha = self.altura_y_validar_balance(nodo.derecho)
+        self.assertLessEqual(abs(altura_izquierda - altura_derecha), 1)
+        return 1 + max(altura_izquierda, altura_derecha)
+
+    def test_rotaciones_mantienen_balance_para_los_cuatro_casos(self):
+        casos = [
+            (["C", "B", "A"], "B"),  # izquierda-izquierda
+            (["A", "B", "C"], "B"),  # derecha-derecha
+            (["C", "A", "B"], "B"),  # izquierda-derecha
+            (["A", "C", "B"], "B"),  # derecha-izquierda
+        ]
+
+        for titulos, raiz_esperada in casos:
+            with self.subTest(titulos=titulos):
+                indice = IndiceTitulosArbol(
+                    [crear_juego(titulo) for titulo in titulos]
+                )
+                self.assertEqual(indice._raiz.titulo, raiz_esperada.casefold())
+                self.altura_y_validar_balance(indice._raiz)
+
+    def test_insercion_ordenada_conserva_balance_y_busquedas(self):
+        videojuegos = [
+            crear_juego(f"Juego {numero:04d}") for numero in range(1000)
+        ]
+        indice = IndiceTitulosArbol(videojuegos)
+
+        self.assertEqual(indice.cantidad_titulos, len(videojuegos))
+        self.altura_y_validar_balance(indice._raiz)
+
+        for videojuego in videojuegos:
+            self.assertEqual(indice.buscar(videojuego.nombre), [videojuego])
+
+    def test_no_acepta_titulo_vacio(self):
+        indice = IndiceTitulosArbol()
+
+        with self.assertRaises(ValueError):
+            indice.agregar(crear_juego("   "))
+
 
 if __name__ == "__main__":
-    test_desbalance()
-
-## Si el Arbol esta enfermo, demora 0.052484 ms
-## Si se aplica AVL al Arbol enfermo, demora 0.000731 ms
+    unittest.main()
