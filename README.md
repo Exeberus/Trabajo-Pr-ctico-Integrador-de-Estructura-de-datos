@@ -108,3 +108,104 @@ python -m unittest discover -v
 - [Objetivos del proyecto](Objetivos.txt)
 - [Diagrama UML](UML%20Tp%20Estructura%20de%20Datos.png)
 
+## Requisitos y casos de uso
+
+### Requisitos funcionales
+
+- Cargar videojuegos desde `datos/videojuegos.json` y representar cada registro como un objeto `Videojuego`.
+- Listar el catálogo y buscar títulos exactos con estrategia secuencial o con el índice AVL.
+- Filtrar videojuegos por género o plataforma y explorar la jerarquía de categorías.
+- Consultar un Top-N por puntuación y ver juegos relacionados por similitud.
+- Encontrar con BFS una ruta de menor cantidad de conexiones y explorar con DFS los juegos alcanzables.
+
+### Requisitos de uso y calidad
+
+- Ejecutarse desde terminal con Python 3.8 o posterior y sin dependencias externas.
+- Mantener separados el modelo, la carga de datos, el catálogo, las estructuras y la interfaz.
+- Permitir comparar estrategias y ejecutar pruebas automatizadas reproducibles.
+- Informar claramente que BFS minimiza cantidad de conexiones, no el puntaje de similitud. TP9 fue salteado por decisión de la cátedra.
+
+### Casos de uso
+
+| Caso | Entrada | Resultado |
+| --- | --- | --- |
+| Listar catálogo | Opción 1 | Muestra los videojuegos cargados. |
+| Buscar título | Título y estrategia secuencial o AVL | Muestra las coincidencias exactas. |
+| Comparar búsquedas | Título a medir | Informa tiempos y si ambas estrategias coinciden. |
+| Filtrar catálogo | Género o plataforma | Muestra los juegos que cumplen el filtro. |
+| Explorar categorías | Opción 5 | Muestra categorías y cantidad de juegos. |
+| Consultar ranking | Cantidad para el Top-N | Muestra los juegos con mayor puntuación sin alterar el heap original. |
+| Ver juegos relacionados | Título de un videojuego | Ordena sus vecinos por similitud. |
+| Buscar ruta | Títulos de origen y destino | BFS devuelve una ruta con menos conexiones, si existe. |
+| Explorar red | Título de origen | DFS muestra los juegos alcanzables desde ese videojuego. |
+
+## Diagramas del sistema
+
+### Diagrama de clases
+
+```mermaid
+classDiagram
+    class Videojuego {
+        +nombre
+        +genero
+        +desarrolladora
+        +puntuacion
+        +plataforma
+    }
+    class CatalogoVideojuegos {
+        +agregar(videojuego)
+        +buscar_por_titulo_secuencial(titulo)
+        +buscar_por_titulo_en_arbol(titulo)
+        +top_por_puntuacion(limite)
+        +buscar_camino_mas_corto(origen, destino)
+        +explorar_en_profundidad(origen)
+    }
+    class IndiceTitulosArbol
+    class HeapPrioridadVideojuegos
+    class GrafoVideojuegos
+    class ArbolCategorias
+    class NodoCategoria
+    class Trabajo_Main
+
+    CatalogoVideojuegos "1" o-- "0..*" Videojuego : catálogo
+    CatalogoVideojuegos --> IndiceTitulosArbol : indexa títulos
+    CatalogoVideojuegos --> HeapPrioridadVideojuegos : prioriza puntuación
+    CatalogoVideojuegos --> GrafoVideojuegos : mantiene relaciones
+    ArbolCategorias *-- NodoCategoria : raíz y subcategorías
+    NodoCategoria o-- Videojuego : juegos de la categoría
+    Trabajo_Main --> CatalogoVideojuegos : operaciones del menú
+    Trabajo_Main --> ArbolCategorias : opción de categorías
+```
+
+### Conexión entre estructuras y operaciones
+
+```mermaid
+flowchart LR
+    JSON[videojuegos.json] --> Carga[datos.py]
+    Carga --> Juegos[Objetos Videojuego]
+    Juegos --> Catalogo[CatalogoVideojuegos]
+    Menu[Trabajo_Main.py] --> Catalogo
+    Catalogo --> Lista[Lista del catálogo]
+    Catalogo --> Indices[Índices por nombre, género y plataforma]
+    Catalogo --> AVL[AVL: búsqueda exacta y recorridos]
+    Catalogo --> Heap[Heap: Top-N por puntuación]
+    Catalogo --> Grafo[Grafo: juegos relacionados]
+    Grafo --> BFS[BFS: ruta con menos conexiones]
+    Grafo --> DFS[DFS: exploración alcanzable]
+    Menu --> Arbol[Árbol general: categorías]
+    Catalogo -->|listado para construir categorías| Menu
+```
+
+## Seguimiento y metodología
+
+El trabajo se organizó por entregas incrementales: cada etapa sumó una necesidad al catálogo y reutilizó el producto existente. El estado integrado en `main` es:
+
+| Etapa | Estado | Evidencia principal |
+| --- | --- | --- |
+| TP0 — Idea, requisitos y boceto | Realizado | `Objetivos.txt` y base del catálogo. |
+| TP1 a TP8 | Realizados e integrados | Secciones de entregas, módulos y pruebas descritos en este README. |
+| TP9 — Caminos mínimos | Salteado por decisión de la cátedra | BFS resuelve menor cantidad de aristas, no caminos ponderados. |
+| TP10 — Integración y defensa | Integrado | Menú funcional y estructuras conectadas en `main`. |
+
+Las ramas `main` y `tp8-v1` están sincronizadas. Las notas privadas para preparar la defensa no forman parte de este repositorio.
+
